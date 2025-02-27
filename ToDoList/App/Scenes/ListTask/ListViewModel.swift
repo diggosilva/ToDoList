@@ -14,9 +14,9 @@ protocol ListViewModelProtocol {
 
 class ListViewModel: ListViewModelProtocol {
     var tasks: [TaskModel] = [
-        TaskModel(id: UUID().uuidString, title: "Estudar Swift"),
-        TaskModel(id: UUID().uuidString, title: "Estudar Coordinator"),
-        TaskModel(id: UUID().uuidString, title: "Estudar UserDefaults"),
+        TaskModel(title: "Estudar Swift"),
+        TaskModel(title: "Estudar Coordinator"),
+        TaskModel(title: "Estudar UserDefaults"),
     ]
     
     func numberOfRowsInSection() -> Int {
