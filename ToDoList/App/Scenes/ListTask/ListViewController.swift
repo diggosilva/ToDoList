@@ -48,7 +48,8 @@ class ListViewController: UIViewController {
     }
     
     @objc private func addTapped() {
-        print("Clicou no add")
+        let addVC = AddViewController()
+        navigationController?.pushViewController(addVC, animated: true)
     }
 }
 
