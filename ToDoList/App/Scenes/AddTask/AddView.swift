@@ -1,3 +1,16 @@
+//
+//  AddView.swift
+//  ToDoList
+//
+//  Created by Diggo Silva on 27/02/25.
+//
+
+import UIKit
+
+protocol AddViewDelegate: AnyObject {
+    func addViewDidSave()
+}
+
 class AddView: UIView {
     lazy var taskTextfield: UITextField = {
         let tf = UITextField()

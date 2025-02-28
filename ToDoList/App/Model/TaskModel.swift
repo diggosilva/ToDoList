@@ -7,12 +7,12 @@
 
 import Foundation
 
-class TaskModel {
+class TaskModel: Codable {
     var id: String
     var title: String
     var isCompleted: Bool = false
     
-    init(id: String, title: String) {
+    init(title: String) {
         self.id = UUID().uuidString
         self.title = title
     }
