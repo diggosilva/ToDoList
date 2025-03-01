@@ -31,6 +31,10 @@ class AddViewController: UIViewController {
         configureDelegatesAndDataSources()
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
     private func configureNavigationBar() {
         title = "Adicionar Tarefa ✒️"
     }
@@ -42,18 +46,13 @@ class AddViewController: UIViewController {
 
 extension AddViewController: AddViewDelegate {
     func addViewDidSave() {
-        guard let taskText = addView.taskTextfield.text else { return }
-        
-        // Validar Task
-        viewModel.validateTask(title: taskText) { result in
+        guard let taskTitle = addView.taskTextfield.text else { return }
+        viewModel.addTask(title: taskTitle) { result in
             switch result {
+            case .success(_):
+                self.navigationController?.popToRootViewController(animated: true)
             case .failure(let error):
                 self.showAlertError(message: error.localizedDescription)
-            case .success(let validTitle):
-                let newTask = TaskModel(title: validTitle)
-                self.viewModel.tasks.append(newTask)
-                self.navigationController?.popToRootViewController(animated: true)
-                print("A tarefa \"\(validTitle)\" foi adicionada com sucesso!")
             }
         }
     }
