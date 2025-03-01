@@ -31,6 +31,13 @@ class ListViewController: UIViewController {
         configureDelegatesAndDataSources()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.loadTasks()
+        print("DEBUG: Você tem \(viewModel.getAllTasks()) tarefas na sua lista.")
+        listView.tableView.reloadData()
+    }
+    
     private func configureNavigationBar() {
         title = "Lista 📝"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -41,10 +48,11 @@ class ListViewController: UIViewController {
     private func configureDelegatesAndDataSources() {
         listView.tableView.delegate = self
         listView.tableView.dataSource = self
+        viewModel.delegate = self
     }
     
     @objc private func editTapped() {
-        print("Clicou no edit")
+        print("DEBUG: Clicou no edit")
     }
     
     @objc private func addTapped() {
@@ -66,5 +74,12 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        viewModel.updateTaskCompletion(at: indexPath)
+    }
+}
+
+extension ListViewController: ListViewModelDelegate {
+    func reloadTable() {
+        listView.tableView.reloadData()
     }
 }
