@@ -51,8 +51,9 @@ class ListViewController: UIViewController {
         viewModel.delegate = self
     }
     
-    @objc private func editTapped() {
-        print("DEBUG: Clicou no edit")
+    @objc private func editTapped(_ sender: UIBarItem) {
+        listView.tableView.isEditing.toggle()
+        sender.title = listView.tableView.isEditing ? "Done" : "Edit"
     }
     
     @objc private func addTapped() {
@@ -75,6 +76,21 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         viewModel.updateTaskCompletion(at: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let movedObjectTemporarily = viewModel.cellForRow(at: sourceIndexPath)
+        viewModel.tasks.remove(at: sourceIndexPath.row)
+        viewModel.tasks.insert(movedObjectTemporarily, at: destinationIndexPath.row)
+        viewModel.saveTasksOrder()
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            viewModel.tasks.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            viewModel.saveTasksOrder()
+        }
     }
 }
 
