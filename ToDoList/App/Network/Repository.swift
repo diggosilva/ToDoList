@@ -11,6 +11,7 @@ protocol RepositoryProtocol {
     func getTasks() -> [TaskModel]
     func saveTask(_ task: TaskModel, completion: @escaping(Result<String, AddTaskError>) -> Void)
     func updateTaskModel(task: TaskModel)
+    func saveTasks(_ tasks: [TaskModel])
 }
 
 class Repository: RepositoryProtocol {
@@ -46,6 +47,12 @@ class Repository: RepositoryProtocol {
             
             let encodedTask = try! JSONEncoder().encode(savedTasks) 
                 userDefaults.set(encodedTask, forKey: taskKey)
+        }
+    }
+    
+    func saveTasks(_ tasks: [TaskModel]) {
+        if let encodedTasks = try? JSONEncoder().encode(tasks) {
+            userDefaults.set(encodedTasks, forKey: taskKey)
         }
     }
 }

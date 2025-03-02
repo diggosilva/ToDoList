@@ -50,10 +50,8 @@ class ListViewModel: ListViewModelProtocol {
         let taskModel = tasks[indexPath.row]
         taskModel.isCompleted.toggle()
         repository.updateTaskModel(task: taskModel)
-        loadTasks()
         delegate?.reloadTable()
     }
-
     
     func loadTasks() {
         tasks = repository.getTasks()
@@ -61,5 +59,9 @@ class ListViewModel: ListViewModelProtocol {
     
     func getAllTasks() -> Int {
         repository.getTasks().count
+    }
+    
+    func saveTasksOrder() {
+        repository.saveTasks(tasks)
     }
 }
