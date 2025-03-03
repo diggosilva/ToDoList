@@ -7,11 +7,14 @@
 
 import UIKit
 
+// MARK: - AddViewDelegate
 protocol AddViewDelegate: AnyObject {
     func addViewDidSave()
 }
 
 class AddView: UIView {
+    
+    // MARK: - Properties
     lazy var taskTextfield: UITextField = {
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
@@ -34,6 +37,7 @@ class AddView: UIView {
     
     weak var delegate: AddViewDelegate?
     
+    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
@@ -41,10 +45,12 @@ class AddView: UIView {
     
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
+    // MARK: - Actions
     @objc func saveTapped() {
         delegate?.addViewDidSave()
     }
     
+    // MARK: - Private Methods
     private func setupView() {
         setHierarchy()
         setConstraints()

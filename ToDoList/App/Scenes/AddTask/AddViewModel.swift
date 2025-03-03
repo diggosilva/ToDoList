@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - AddTaskError Enum
 enum AddTaskError: String, Error {
     case emptyTask = "O campo de tarefa não pode estar vazio."
     case whiteSpaceTask = "O campo de tarefa não pode conter apenas espaços em branco."
@@ -17,18 +18,23 @@ enum AddTaskError: String, Error {
     }
 }
 
+// MARK: - AddViewModelProtocol Protocol
 protocol AddViewModelProtocol {
     func addTask(title: String, completion: @escaping(Result<String, AddTaskError>) -> Void)
 }
 
 class AddViewModel: AddViewModelProtocol {
+    
+    // MARK: - Properties
     var tasks: [TaskModel] = []
     private let repository: RepositoryProtocol
     
+    // MARK: - Initializer
     init(repository: RepositoryProtocol = Repository()) {
         self.repository = repository
     }
     
+    // MARK: - Private Methods
     private func validateTask(title: String, completion: @escaping(Result<String, AddTaskError>) -> Void) {
         guard !title.trimmingCharacters(in: .whitespaces).isEmpty else {
             title.isEmpty ? completion(.failure(.emptyTask)) : completion(.failure(.whiteSpaceTask))
@@ -37,6 +43,7 @@ class AddViewModel: AddViewModelProtocol {
         completion(.success(title))
     }
     
+    // MARK: - Public Methods
     func addTask(title: String, completion: @escaping(Result<String, AddTaskError>) -> Void) {
         // Validar Task
         validateTask(title: title) { result in
