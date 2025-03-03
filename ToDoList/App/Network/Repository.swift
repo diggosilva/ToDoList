@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - RepositoryProtocol
 protocol RepositoryProtocol {
     func getTasks() -> [TaskModel]
     func saveTask(_ task: TaskModel, completion: @escaping(Result<String, AddTaskError>) -> Void)
@@ -15,9 +16,12 @@ protocol RepositoryProtocol {
 }
 
 class Repository: RepositoryProtocol {
+    
+    // MARK: - Properties
     private let userDefaults = UserDefaults.standard
     private let taskKey = "taskKey"
     
+    // MARK: - Public Methods
     func getTasks() -> [TaskModel] {
         if let data = userDefaults.data(forKey: taskKey) {
             if let decodedTasks = try? JSONDecoder().decode([TaskModel].self, from: data) {

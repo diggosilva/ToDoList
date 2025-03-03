@@ -7,18 +7,21 @@
 
 import Foundation
 
+// MARK: - ListViewModelProtocol
 protocol ListViewModelProtocol {
     func numberOfRowsInSection() -> Int
     func cellForRow(at indexPath: IndexPath) -> TaskModel
 }
 
+// MARK: - ListViewModelDelegate
 protocol ListViewModelDelegate: AnyObject {
     func reloadTable()
 }
 
 class ListViewModel: ListViewModelProtocol {
-    var tasks: [TaskModel] = []
     
+    // MARK: - Properties
+    var tasks: [TaskModel] = []
     private let repository: RepositoryProtocol
     weak var delegate: ListViewModelDelegate?
     
@@ -26,6 +29,7 @@ class ListViewModel: ListViewModelProtocol {
         self.repository = repository
     }
     
+    // MARK: - Methods TableView
     func numberOfRowsInSection() -> Int {
         return tasks.count
     }
@@ -34,6 +38,7 @@ class ListViewModel: ListViewModelProtocol {
         return tasks[indexPath.row]
     }
     
+    // MARK: - Methods Repository
     func addTask(title: String, completion: @escaping (Result<String, AddTaskError>) -> Void) {
         repository.saveTask(TaskModel(title: title)) { result in
             switch result {

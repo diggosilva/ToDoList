@@ -8,6 +8,8 @@
 import UIKit
 
 class ListView: UIView {
+    
+    // MARK: - Properties
     lazy var tableView: UITableView = {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
@@ -15,6 +17,7 @@ class ListView: UIView {
         return tv
     }()
     
+    // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
@@ -22,6 +25,7 @@ class ListView: UIView {
     
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
+    // MARK: - Private Methods
     private func setupView() {
         setHierarchy()
         setConstraints()

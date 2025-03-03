@@ -8,10 +8,13 @@
 import Foundation
 
 class TaskModel: Codable {
+    
+    // MARK: - Properties
     var id: String
     var title: String
     var isCompleted: Bool = false
     
+    // MARK: - Initializer
     init(title: String) {
         self.id = UUID().uuidString
         self.title = title

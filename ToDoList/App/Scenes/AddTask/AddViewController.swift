@@ -9,9 +9,11 @@ import UIKit
 
 class AddViewController: UIViewController {
     
+    // MARK: - Properties
     private let addView: AddView!
     private let viewModel: AddViewModel!
     
+    // MARK: - Initializer
     init(addView: AddView = AddView(), viewModel: AddViewModel = AddViewModel()) {
         self.addView = addView
         self.viewModel = viewModel
@@ -20,6 +22,7 @@ class AddViewController: UIViewController {
     
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
+    // MARK: - Lifecycle
     override func loadView() {
         super.loadView()
         view = addView
@@ -35,6 +38,7 @@ class AddViewController: UIViewController {
         view.endEditing(true)
     }
     
+    // MARK: - Configuration
     private func configureNavigationBar() {
         title = "Adicionar Tarefa ✒️"
     }
@@ -44,6 +48,7 @@ class AddViewController: UIViewController {
     }
 }
 
+// MARK: - AddViewDelegate
 extension AddViewController: AddViewDelegate {
     func addViewDidSave() {
         guard let taskTitle = addView.taskTextfield.text else { return }
@@ -57,6 +62,7 @@ extension AddViewController: AddViewDelegate {
         }
     }
     
+    // MARK: - Alerts
     func showAlertError(message: String) {
         let alert = UIAlertController(title: "Ops... algo deu errado!", message: message, preferredStyle: .alert)
         let ok = UIAlertAction(title: "Ok", style: .default) { action in

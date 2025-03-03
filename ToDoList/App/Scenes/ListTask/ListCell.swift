@@ -8,6 +8,8 @@
 import UIKit
 
 class ListCell: UITableViewCell {
+    
+    // MARK: - Properties
     static let identifier: String = "ListCell"
     
     lazy var completedImage: UIImageView = {
@@ -25,6 +27,7 @@ class ListCell: UITableViewCell {
         return lbl
     }()
     
+    // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
@@ -32,6 +35,7 @@ class ListCell: UITableViewCell {
     
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
+    // MARK: - Configuration
     func configure(task: TaskModel) {
         titleLabel.text = task.title
         
@@ -49,6 +53,7 @@ class ListCell: UITableViewCell {
         }
     }
     
+    // MARK: - Prepare for Reuse
     override func prepareForReuse() {
         super.prepareForReuse()
         let normalAttributes: [NSAttributedString.Key: Any] = [
@@ -58,6 +63,7 @@ class ListCell: UITableViewCell {
         titleLabel.attributedText = NSAttributedString(string: titleLabel.text ?? "", attributes: normalAttributes)
     }
     
+    // MARK: - Private Methods
     private func setupView() {
         setHierarchy()
         setConstraints()

@@ -8,7 +8,8 @@
 import UIKit
 
 class ListViewController: UIViewController {
-
+    
+    // MARK: - Properties
     private var listView: ListView!
     private var viewModel: ListViewModel!
     
@@ -20,6 +21,7 @@ class ListViewController: UIViewController {
     
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
+    // MARK: - Lifecycle
     override func loadView() {
         super.loadView()
         view = listView
@@ -37,6 +39,7 @@ class ListViewController: UIViewController {
         listView.tableView.reloadData()
     }
     
+    // MARK: - Configuration
     private func configureNavigationBar() {
         title = "Lista 📝"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -50,6 +53,7 @@ class ListViewController: UIViewController {
         viewModel.delegate = self
     }
     
+    // MARK: - Actions
     @objc private func editTapped(_ sender: UIBarItem) {
         UIView.transition(with: listView.tableView, duration: 0.25, options: .curveEaseInOut, animations: {
             self.listView.tableView.isEditing.toggle()
@@ -63,6 +67,7 @@ class ListViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDelegate UITableViewDataSource
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfRowsInSection()
@@ -95,6 +100,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+// MARK: - ListViewModelDelegate
 extension ListViewController: ListViewModelDelegate {
     func reloadTable() {
         listView.tableView.reloadData()
