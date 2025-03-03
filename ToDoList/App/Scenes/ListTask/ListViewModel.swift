@@ -57,10 +57,6 @@ class ListViewModel: ListViewModelProtocol {
         tasks = repository.getTasks()
     }
     
-    func getAllTasks() -> Int {
-        repository.getTasks().count
-    }
-    
     func saveTasksOrder() {
         repository.saveTasks(tasks)
     }
