@@ -34,7 +34,6 @@ class ListViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.loadTasks()
-        print("DEBUG: Você tem \(viewModel.getAllTasks()) tarefas na sua lista.")
         listView.tableView.reloadData()
     }
     
@@ -52,8 +51,10 @@ class ListViewController: UIViewController {
     }
     
     @objc private func editTapped(_ sender: UIBarItem) {
-        listView.tableView.isEditing.toggle()
-        sender.title = listView.tableView.isEditing ? "Done" : "Edit"
+        UIView.transition(with: listView.tableView, duration: 0.25, options: .curveEaseInOut, animations: {
+            self.listView.tableView.isEditing.toggle()
+            sender.title = self.listView.tableView.isEditing ? "Done" : "Edit"
+        })
     }
     
     @objc private func addTapped() {
