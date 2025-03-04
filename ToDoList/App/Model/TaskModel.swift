@@ -13,6 +13,7 @@ class TaskModel: Codable {
     var id: String
     var title: String
     var isCompleted: Bool = false
+    var creationDate: Date = .now
     
     // MARK: - Initializer
     init(title: String) {
