@@ -23,7 +23,15 @@ class ListCell: UITableViewCell {
     lazy var titleLabel: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.text = "Title here"
+        lbl.numberOfLines = 0
+        return lbl
+    }()
+    
+    lazy var timeStampLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.textColor = .secondaryLabel
+        lbl.font = .systemFont(ofSize: 12, weight: .medium)
         return lbl
     }()
     
@@ -51,6 +59,7 @@ class ListCell: UITableViewCell {
             ]
             titleLabel.attributedText = NSAttributedString(string: titleLabel.text ?? "", attributes: attribute)
         }
+        timeStampLabel.text = formatDate(task.creationDate)
     }
     
     // MARK: - Prepare for Reuse
@@ -69,12 +78,18 @@ class ListCell: UITableViewCell {
         setConstraints()
     }
     
+    private func formatDate(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d MMM, HH:mm:ss"
+        return dateFormatter.string(from: date)
+    }
+    
     private func setHierarchy() {
-        contentView.addSubviews(completedImage, titleLabel)
+        contentView.addSubviews(completedImage, titleLabel, timeStampLabel)
     }
     
     private func setConstraints() {
-        let padding: CGFloat = 20
+        let padding: CGFloat = 16
         
         NSLayoutConstraint.activate([
             completedImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -82,9 +97,13 @@ class ListCell: UITableViewCell {
             completedImage.widthAnchor.constraint(equalToConstant: 24),
             completedImage.heightAnchor.constraint(equalTo: completedImage.widthAnchor),
             
-            titleLabel.centerYAnchor.constraint(equalTo: completedImage.centerYAnchor),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding / 2),
             titleLabel.leadingAnchor.constraint(equalTo: completedImage.trailingAnchor, constant: padding / 2),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            
+            timeStampLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
+            timeStampLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            timeStampLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding / 2),
         ])
     }
 }
