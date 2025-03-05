@@ -11,9 +11,9 @@ class ListViewController: UIViewController {
     
     // MARK: - Properties
     private var listView: ListView!
-    private var viewModel: ListViewModel!
+    private var viewModel: ListViewModelProtocol!
     
-    init(listView: ListView = ListView(), viewModel: ListViewModel = ListViewModel()) {
+    init(listView: ListView = ListView(), viewModel: ListViewModelProtocol = ListViewModel()) {
         self.listView = listView
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)

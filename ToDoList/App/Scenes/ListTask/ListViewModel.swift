@@ -11,6 +11,11 @@ import Foundation
 protocol ListViewModelProtocol {
     func numberOfRowsInSection() -> Int
     func cellForRow(at indexPath: IndexPath) -> TaskModel
+    func updateTaskCompletion(at indexPath: IndexPath)
+    func loadTasks()
+    func saveTasksOrder()
+    var tasks: [TaskModel] { get set }
+    var delegate: ListViewModelDelegate? { get set }
 }
 
 // MARK: - ListViewModelDelegate

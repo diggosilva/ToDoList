@@ -11,10 +11,10 @@ class AddViewController: UIViewController {
     
     // MARK: - Properties
     private let addView: AddView!
-    private let viewModel: AddViewModel!
+    private let viewModel: AddViewModelProtocol!
     
     // MARK: - Initializer
-    init(addView: AddView = AddView(), viewModel: AddViewModel = AddViewModel()) {
+    init(addView: AddView = AddView(), viewModel: AddViewModelProtocol = AddViewModel()) {
         self.addView = addView
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
