@@ -50,10 +50,10 @@ final class ToDoListTestsAddViewModel: XCTestCase {
         XCTAssertEqual(tasks.count, 2)
         
         let emptyTitle = TaskModel(title: "")
-        XCTAssertTrue(emptyTitle.title.isEmpty)
+        XCTAssertTrue(emptyTitle.title.isEmpty, "O título não pode ser vazio!")
         
         let emptySpace = TaskModel(title: " ")
-        XCTAssertTrue(emptySpace.title.trimmingCharacters(in: .whitespaces).isEmpty)
+        XCTAssertTrue(emptySpace.title.trimmingCharacters(in: .whitespaces).isEmpty, "O título não pode conter apenas espaços!")
         
         sut.addTask(title: "Test 1") { result in
             switch result {
@@ -65,15 +65,28 @@ final class ToDoListTestsAddViewModel: XCTestCase {
         }
     }
     
-    func testWhenFailure() {
+    func testWhenFailureWithEmptySpace() {
         let sut: AddViewModel = AddViewModel(repository: MockFailureAdd())
         
-        sut.addTask(title: "Test 2") { result in
+        sut.addTask(title: "") { result in
             switch result {
-            case .success(let message):
-                XCTFail("Esperado falha, mas obteve sucesso: \(message)")
+            case .success(_):
+                XCTFail("Esperado falha, mas obteve sucesso.")
             case .failure(let error):
-                XCTAssertEqual(error, AddTaskError.genericError)
+                XCTAssertEqual(error, .emptyTask)
+            }
+        }
+    }
+    
+    func testWhenFailureWithWhiteSpace() {
+        let sut: AddViewModel = AddViewModel(repository: MockFailureAdd())
+        
+        sut.addTask(title: " ") { result in
+            switch result {
+            case .success(_):
+                XCTFail("Esperado falha, mas obteve sucesso.")
+            case .failure(let error):
+                XCTAssertEqual(error, .whiteSpaceTask)
             }
         }
     }
