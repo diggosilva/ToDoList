@@ -59,22 +59,21 @@ class MockFailureList: RepositoryProtocol {
 }
 
 final class ToDoListTestsListViewModel: XCTestCase {
+    var repository: RepositoryProtocol!
+    var sut: ListViewModel!
     
     override func setUp() {
         super.setUp()
+        repository = MockSuccessList()
+        sut = ListViewModel(repository: repository)
     }
     
     func testWhenGetTasksFromRepositoryReturnsEmptyArrayThenNumberOfRowsIsZero() {
-        let repository: RepositoryProtocol = MockSuccessList()
-        let sut: ListViewModel = ListViewModel(repository: repository)
         let numberOfRows = sut.numberOfRowsInSection()
         XCTAssertEqual(numberOfRows, 0)
     }
     
     func testWhenGetTasksFromRepositoryReturnsNonEmptyArrayThenNumberOfRowsIsEqualToTasksCount() {
-        let repository: RepositoryProtocol = MockSuccessList()
-        let sut: ListViewModel = ListViewModel(repository: repository)
-        
         sut.loadTasks()
         
         let numberOfRows = sut.numberOfRowsInSection()
@@ -82,14 +81,11 @@ final class ToDoListTestsListViewModel: XCTestCase {
     }
     
     func testWhenSaveTask() {
-        let repository: RepositoryProtocol = MockSuccessList()
-        let sut: ListViewModel = ListViewModel(repository: repository)
-        
         sut.loadTasks()
         sut.addTask(title: "Test 3") { result in
             switch result {
             case .success(_):
-                let newTask = sut.cellForRow(at: IndexPath(row: 2, section: 0))
+                let newTask = self.sut.cellForRow(at: IndexPath(row: 2, section: 0))
                 XCTAssertEqual(newTask.title, "Test 3")
             case .failure(let failure):
                 XCTFail("Erro ao salvar a tarefa: \(failure)")
@@ -98,9 +94,6 @@ final class ToDoListTestsListViewModel: XCTestCase {
     }
     
     func testWhenUpdateTask() {
-        let repository: RepositoryProtocol = MockSuccessList()
-        let sut: ListViewModel = ListViewModel(repository: repository)
-        
         sut.loadTasks()
         sut.updateTaskCompletion(at: IndexPath(row: 1, section: 0))
         sut.saveTasksOrder()
@@ -125,6 +118,8 @@ final class ToDoListTestsListViewModel: XCTestCase {
     }
 
     override func tearDown() {
+        sut = nil
+        repository = nil
         super.tearDown()
     }
 }
